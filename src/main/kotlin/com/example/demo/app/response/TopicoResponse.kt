@@ -1,4 +1,4 @@
-package com.example.demo.port.input.response
+package com.example.demo.app.response
 
 import com.example.demo.core.domain.StatusTopico
 import java.time.LocalDateTime

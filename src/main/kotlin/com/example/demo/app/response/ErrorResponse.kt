@@ -1,4 +1,4 @@
-package com.example.demo.port.input.response
+package com.example.demo.app.response
 
 import java.time.LocalDateTime
 

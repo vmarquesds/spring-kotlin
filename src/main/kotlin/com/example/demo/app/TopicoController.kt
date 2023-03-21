@@ -1,9 +1,9 @@
-package com.example.demo.port.input
+package com.example.demo.app
 
-import com.example.demo.core.usecase.TopicoUseCase
-import com.example.demo.port.input.request.TopicoRequest
-import com.example.demo.port.input.request.UpdateTopicoRequest
-import com.example.demo.port.input.response.TopicoResponse
+import com.example.demo.app.request.TopicoRequest
+import com.example.demo.app.request.UpdateTopicoRequest
+import com.example.demo.app.response.TopicoResponse
+import com.example.demo.core.ports.interfaces.TopicoServicePort
 import jakarta.transaction.Transactional
 import jakarta.validation.Valid
 import org.springframework.cache.annotation.CacheEvict
@@ -15,17 +15,17 @@ import java.util.*
 
 @RestController
 @RequestMapping("/topicos")
-class TopicoController(private val topicoUseCase: TopicoUseCase) {
+class TopicoController(private val topicoServicePort: TopicoServicePort) {
 
     @GetMapping
     @Cacheable("topicos")
     fun getTopicos(): List<TopicoResponse> {
-        return topicoUseCase.listar()
+        return topicoServicePort.listAllTopicos()
     }
 
     @GetMapping("/{id}")
     fun getTopicosById(@PathVariable id: Long): TopicoResponse {
-        return topicoUseCase.getById(id)
+        return topicoServicePort.getTopicoById(id)
     }
 
     @PostMapping
@@ -34,7 +34,7 @@ class TopicoController(private val topicoUseCase: TopicoUseCase) {
     fun createTopico(
         @RequestBody @Valid topico: TopicoRequest
     ): ResponseEntity<TopicoResponse> {
-        val topicoResponse = topicoUseCase.create(topico)
+        val topicoResponse = topicoServicePort.createTopico(topico)
         return ResponseEntity.ok().body(topicoResponse)
     }
 
@@ -42,7 +42,7 @@ class TopicoController(private val topicoUseCase: TopicoUseCase) {
     @Transactional
     @CacheEvict(value = ["topicos"], allEntries = true)
     fun updateTopico(@RequestBody @Valid topico: UpdateTopicoRequest): ResponseEntity<TopicoResponse> {
-        val topico = topicoUseCase.update(topico)
+        val topico = topicoServicePort.updateTopico(topico)
         return ResponseEntity.ok(topico)
     }
 
@@ -51,6 +51,6 @@ class TopicoController(private val topicoUseCase: TopicoUseCase) {
     @Transactional
     @CacheEvict(value = ["topicos"], allEntries = true)
     fun removeTopico(@PathVariable id: Long) {
-        return topicoUseCase.delete(id)
+        return topicoServicePort.deleteTopico(id)
     }
 }

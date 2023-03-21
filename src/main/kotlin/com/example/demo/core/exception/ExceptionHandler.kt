@@ -1,6 +1,6 @@
 package com.example.demo.core.exception
 
-import com.example.demo.port.input.response.ErrorResponse
+import com.example.demo.app.response.ErrorResponse
 import jakarta.servlet.http.HttpServletRequest
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.MethodArgumentNotValidException

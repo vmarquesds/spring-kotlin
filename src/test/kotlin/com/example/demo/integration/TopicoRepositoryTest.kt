@@ -1,8 +1,12 @@
 package com.example.demo.integration
 
 import com.example.demo.infra.entity.TopicoPorCategoria
+import com.example.demo.infra.repository.CursoRepository
 import com.example.demo.infra.repository.TopicoRepository
+import com.example.demo.infra.repository.UsuarioRepository
+import com.example.demo.integration.model.CursoEntityTest
 import com.example.demo.integration.model.TopicoEntityTest
+import com.example.demo.integration.model.UsuarioEntityTest
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -21,6 +25,11 @@ class TopicoRepositoryTest {
 
     @Autowired
     lateinit var topicoRepository: TopicoRepository
+    @Autowired
+    lateinit var usuarioRepository: UsuarioRepository
+    @Autowired
+    lateinit var cursoRepository: CursoRepository
+
 
     private val topico = TopicoEntityTest.build()
 
@@ -43,6 +52,8 @@ class TopicoRepositoryTest {
 
     @Test
     fun `deve gerar um relatorio`() {
+        usuarioRepository.save(UsuarioEntityTest.build())
+        cursoRepository.save(CursoEntityTest.build())
         topicoRepository.save(topico)
         val relatorio = topicoRepository.relatorio()
 
